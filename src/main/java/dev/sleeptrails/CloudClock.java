@@ -14,13 +14,13 @@ public final class CloudClock {
 
     public void update(double gameTime, PresentationClock.Frame frame) {
         if (sampled && active && generation == frame.generation()) {
-            offset += (frame.time() - skyTime) - (gameTime - this.gameTime);
+            offset += (frame.motionTime() - skyTime) - (gameTime - this.gameTime);
         }
         sampled = true;
         active = frame.active();
         generation = frame.generation();
         this.gameTime = gameTime;
-        skyTime = frame.time();
+        skyTime = frame.motionTime();
     }
 
     public double offset() { return offset; }

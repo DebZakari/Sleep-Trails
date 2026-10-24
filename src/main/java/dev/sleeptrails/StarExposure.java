@@ -11,9 +11,9 @@ public final class StarExposure {
     private StarExposure() {}
 
     /** A re-entry during an ease-back keeps the current trail width instead of collapsing it. */
-    public static void begin(double time) { start = time - sample.ticks(); trails = Settings.trails(); }
+    public static void begin(double motionTime) { start = motionTime - sample.ticks(); trails = Settings.trails(); }
     public static void update(PresentationClock.Frame frame) {
-        float ticks = width(frame.active() && trails, start, frame.time(), frame.progress());
+        float ticks = width(frame.active() && trails, start, frame.motionTime(), frame.progress());
         sample = new Sample(ticks, (int)Math.floorMod((long)Math.floor(frame.time()), 2_400_000L), frame.generation());
     }
     public static float width(boolean active, double start, double time, double progress) {

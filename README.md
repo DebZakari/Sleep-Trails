@@ -34,7 +34,7 @@
   <sub>Vanilla camera at 0° tilt, with Vitrail and Complementary Unbound r5.9.3.</sub>
 </p>
 
-Sleep Trails smooths the sky from night to morning while you sleep, with stars tracing arcs across the sky. The transition starts in bed and finishes after waking.
+Sleep Trails smooths the sky from night to morning while you sleep, with stars tracing arcs across the sky. It also smooths server time jumps between day and night while you stay awake, including when another player skips the night.
 
 **Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
 
@@ -43,7 +43,10 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 
 ## Features
 
+The time-jump option and zero-tilt default below are in development for Alpha 3. The published Alpha 2 download has the earlier in-bed behavior.
+
 - **A gradual sunrise.** A five-second sky transition begins while you sleep, followed by a two-second finish when the server skips the night.
+- **Smooth time jumps while awake.** A five-second transition follows other players' night skips and server commands that jump between day and night, with your camera and movement under your control. Gameplay follows server time immediately while the visuals catch up.
 - **Long-exposure star trails.** Uses vanilla's stars, or the supported shader pack's stars.
 - **Clouds that follow the transition.** Vanilla clouds drift with the sky, with trails hidden behind cloud bodies and visible through gaps.
 - **Smooth interrupted sleep.** Leaving bed before the night skips eases the sky back to the current time.
@@ -78,17 +81,20 @@ The Vitrail adapter checks the renderer JAR and shader pack against the supporte
 
 ## Settings
 
-Open Sleep Trails from Mod Menu or Sodium's Video Settings. Changes made during a transition apply from the next sleep.
+Open Sleep Trails from Mod Menu or Sodium's Video Settings. Changes made during a transition apply from the next transition.
 
 | Setting | Default | Options |
 |---|---|---|
 | Sky Transition | On | Enable or disable the effect |
+| Smooth Time Jumps | On | Smooth day-to-night and night-to-day jumps while awake, including other players' sleep skips |
 | Star Trails | On | Enable or disable trails while keeping the sky transition |
 | Camera Mode | Vanilla | Vanilla or Cinematic |
-| Tilt | Auto | Auto, or 0 to 60 degrees in Vanilla mode |
+| Tilt | 0° (Vanilla) | Auto, or 0 to 60 degrees in Vanilla mode |
 | Eye Position | Toward the Feet | Toward the Feet, Vanilla, Raised, or Vanilla Body Pose when Entity Model Features is installed |
 
-Auto tilt follows your vertical field of view. Cinematic mode raises the view while sleeping and orbits the sleeper in third person. Camera changes affect rendering only.
+Zero tilt leaves the Vanilla camera mode's angle unchanged. Auto tilt follows your vertical field of view. Existing saved tilt choices are preserved. Cinematic mode raises the view while sleeping and orbits the sleeper in third person. Camera changes affect rendering only.
+
+Smooth Time Jumps requires Sky Transition. It starts after the server's actual jump, without needing a sleep announcement or a nearby sleeper. Natural dawn and dusk, small corrections, and jumps that stay within daytime or within nighttime do not start it. Another qualifying jump retargets from the visible sky. Turning off Smooth Time Jumps keeps your own in-bed transition available.
 
 <details>
 <summary>Configuration file and JVM arguments</summary>

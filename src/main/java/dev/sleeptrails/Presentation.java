@@ -21,6 +21,7 @@ public final class Presentation {
     private static final CloudClock CLOUDS = new CloudClock();
     /** Read between transitions, so a setting changed during one applies from the next sleep. */
     private static boolean effect = true;
+    private static boolean timeJumps = true;
     private static ClientLevel world;
     private static EnvironmentAttributeSystem environment;
     /** The same sky at the start of the star exposure, for the arc vanilla's stars turned through (dev.9). */
@@ -40,7 +41,10 @@ public final class Presentation {
 
     public static void tick() {
         var mc = Minecraft.getInstance();
-        if (!CLOCK.active()) effect = Settings.effect();
+        if (!CLOCK.active()) {
+            effect = Settings.effect();
+            timeJumps = Settings.timeJumps();
+        }
         boolean enabled = effect && supported(mc.level) && VitrailCompatibility.supportedRenderer();
         CLOCK.context(mc.level, enabled);
         if (world != mc.level) {
@@ -53,8 +57,9 @@ public final class Presentation {
         long now = System.nanoTime();
         double time = world == null ? 0 : world.getDefaultClockTime();
         if (CLOCK.observeSleep(enabled && mc.player != null && mc.player.isSleeping(), time, now)) {
-            double visible = CLOCK.frame(now, time).time();
-            StarExposure.begin(visible);
+            var shown = CLOCK.frame(now, time);
+            double visible = shown.time();
+            StarExposure.begin(shown.motionTime());
             Observation.event("sleep_preview_start", Map.of("from", time, "visible", visible));
         }
     }
@@ -66,8 +71,14 @@ public final class Presentation {
         ClockNetworkState update = packet.clockUpdates().get(holder);
         if (update == null) return;
         long now = System.nanoTime();
-        if (CLOCK.update(world.getDefaultClockTime(), update.totalTicks() + update.partialTick(), update.rate(), now)) {
-            Observation.event("catchup_start", Map.of("from", world.getDefaultClockTime(), "target", update.totalTicks(),
+        double before = world.getDefaultClockTime();
+        double after = update.totalTicks() + update.partialTick();
+        long generation = CLOCK.frame(now, before).generation();
+        boolean started = CLOCK.update(before, after, update.rate(), now, timeJumps);
+        if (CLOCK.frame(now, after).generation() != generation) StarExposure.reset();
+        if (started) {
+            if (CLOCK.awake()) StarExposure.begin(CLOCK.frame(now, after).motionTime());
+            Observation.event(CLOCK.awake() ? "time_jump_start" : "catchup_start", Map.of("from", before, "target", update.totalTicks(),
                 "finishFrom", CLOCK.finishFrom()));
         }
     }
@@ -97,6 +108,7 @@ public final class Presentation {
             var fields = new java.util.LinkedHashMap<String, Object>();
             fields.put("active", frame.active());
             fields.put("presentationTime", frame.time());
+            fields.put("motionTime", frame.motionTime());
             fields.put("authoritativeTime", authoritative);
             fields.put("progress", frame.progress());
             fields.put("generation", frame.generation());
@@ -105,6 +117,7 @@ public final class Presentation {
             fields.put("vanillaTrailDraws", VanillaTrails.draws());
             fields.put("confirmed", CLOCK.confirmed());
             fields.put("returning", CLOCK.returning());
+            fields.put("awakeTransition", CLOCK.awake());
             fields.put("playerTick", mc.player.tickCount);
             fields.put("realSun", raw.getValue(EnvironmentAttributes.SUN_ANGLE, camera.position(), null));
             fields.put("visualSun", valueOrReal(EnvironmentAttributes.SUN_ANGLE, camera.position()));
@@ -174,6 +187,6 @@ public final class Presentation {
     public static double cloudOffset() { return CLOUDS.offset(); }
     /** This frame's seconds into the sleep's preview: NaN without one, infinite once the skip is confirmed. */
     public static double previewSeconds() { return previewSeconds; }
-    public static long shaderTime(long authoritative) { return frame.active() ? (long)Math.floor(frame.time()) : authoritative; }
+    public static long shaderTime(long authoritative) { return frame.active() || CLOCK.shiftedEpoch() ? (long)Math.floor(frame.time()) : authoritative; }
     public static void reset() { CLOCK.cancel(); StarExposure.reset(); environment = null; exposure = null; previewSeconds = Double.NaN; frame = new PresentationClock.Frame(false, 0, 1, frame.generation() + 1); }
 }

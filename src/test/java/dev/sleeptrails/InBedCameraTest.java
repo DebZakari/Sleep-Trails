@@ -17,11 +17,12 @@ class InBedCameraTest {
     }
 
     @Test void vanillaModeEasesItsTiltInOverASecondAndZeroIsVanilla() {
-        assertEquals(0, InBedCamera.firstPersonPitch(VANILLA, 0, 90), 0);
-        assertEquals(-17.5, InBedCamera.firstPersonPitch(VANILLA, .5, 90), 1e-4);
-        assertEquals(-35, InBedCamera.firstPersonPitch(VANILLA, 1, 90));
-        assertEquals(-35, InBedCamera.firstPersonPitch(VANILLA, Double.POSITIVE_INFINITY, 90));
-        assertEquals(0, InBedCamera.firstPersonPitch(VANILLA.withTilt(0), 3, 90), 0);
+        var auto = VANILLA.withTilt(Settings.AUTO);
+        assertEquals(0, InBedCamera.firstPersonPitch(auto, 0, 90), 0);
+        assertEquals(-17.5, InBedCamera.firstPersonPitch(auto, .5, 90), 1e-4);
+        assertEquals(-35, InBedCamera.firstPersonPitch(auto, 1, 90));
+        assertEquals(-35, InBedCamera.firstPersonPitch(auto, Double.POSITIVE_INFINITY, 90));
+        assertEquals(0, InBedCamera.firstPersonPitch(VANILLA, 3, 90), 0);
     }
 
     @Test void cinematicRisesFiftyDegreesOverFourSecondsWhateverTheTilt() {

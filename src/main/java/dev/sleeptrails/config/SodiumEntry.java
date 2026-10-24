@@ -20,7 +20,7 @@ public final class SodiumEntry implements ConfigEntryPoint {
     private static final Identifier ICON = id("icon.png");
     /** The dawn glow along the icon's horizon. */
     private static final int THEME = 0xFFE88C5C;
-    private static final Identifier EFFECT = id("effect"), TRAILS = id("trails"), CAMERA = id("camera"), TILT = id("tilt"), EYE = id("eye_position");
+    private static final Identifier EFFECT = id("effect"), TRAILS = id("trails"), TIME_JUMPS = id("time_jumps"), CAMERA = id("camera"), TILT = id("tilt"), EYE = id("eye_position");
 
     @Override
     public void registerConfigLate(ConfigBuilder builder) {
@@ -37,6 +37,12 @@ public final class SodiumEntry implements ConfigEntryPoint {
                         .setTooltip(Component.translatable(Text.tooltip(Text.EFFECT)))
                         .setDefaultValue(defaults.effect())
                         .setBinding(v -> Settings.change(Settings.get().withEffect(v)), () -> Settings.get().effect())
+                        .setStorageHandler(Settings::save))
+                    .addOption(builder.createBooleanOption(TIME_JUMPS)
+                        .setName(Component.translatable(Text.TIME_JUMPS))
+                        .setTooltip(Component.translatable(Text.tooltip(Text.TIME_JUMPS)))
+                        .setDefaultValue(defaults.timeJumps())
+                        .setBinding(v -> Settings.change(Settings.get().withTimeJumps(v)), () -> Settings.get().timeJumps())
                         .setStorageHandler(Settings::save))
                     .addOption(builder.createBooleanOption(TRAILS)
                         .setName(Component.translatable(Text.TRAILS))

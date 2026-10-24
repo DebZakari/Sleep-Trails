@@ -33,6 +33,8 @@ public final class SettingsScreen extends OptionsSubScreen {
         list.addSmall(
             OptionInstance.createBoolean(Text.EFFECT, tooltip(Text.EFFECT), s.effect(), v -> Settings.change(Settings.get().withEffect(v))),
             OptionInstance.createBoolean(Text.TRAILS, tooltip(Text.TRAILS), s.trails(), v -> Settings.change(Settings.get().withTrails(v))));
+        list.addBig(OptionInstance.createBoolean(Text.TIME_JUMPS, tooltip(Text.TIME_JUMPS), s.timeJumps(),
+            v -> Settings.change(Settings.get().withTimeJumps(v))));
         list.addHeader(Component.translatable(Text.CAMERA_HEADER));
         tilt = new OptionInstance<>(Text.TILT, OptionInstance.cachedConstantTooltip(Component.translatable(Text.tooltip(Text.TILT))),
             (caption, v) -> Options.genericValueLabel(caption, Text.tilt(v, options.fov().get())),
@@ -76,14 +78,14 @@ public final class SettingsScreen extends OptionsSubScreen {
     /** The translation keys, shared with the Sodium page. */
     static final class Text {
         static final String TITLE = "sleep_trails.settings", PAGE = "sleep_trails.settings.page", EFFECT = "sleep_trails.settings.effect", TRAILS = "sleep_trails.settings.trails",
-            CAMERA_HEADER = "sleep_trails.settings.in_bed_camera", CAMERA = "sleep_trails.settings.camera",
+            TIME_JUMPS = "sleep_trails.settings.time_jumps", CAMERA_HEADER = "sleep_trails.settings.in_bed_camera", CAMERA = "sleep_trails.settings.camera",
             TILT = "sleep_trails.settings.tilt", EYE = "sleep_trails.settings.eye_position";
         private Text() {}
         static String tooltip(String key) { return key + ".tooltip"; }
         static String value(String key, Enum<?> value) { return key + "." + Settings.name(value); }
         static Component tilt(int value, int fov) {
             return value < 0 ? Component.translatable(TILT + ".auto", InBedCamera.tilt(Settings.AUTO, fov))
-                : Component.translatable(TILT + ".degrees", value);
+                : value == 0 ? Component.translatable(TILT + ".vanilla") : Component.translatable(TILT + ".degrees", value);
         }
     }
 }

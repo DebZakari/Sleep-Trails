@@ -2,7 +2,11 @@ package dev.sleeptrails;
 
 /** Pure event-in/frame-out controller. It owns no game clock, entity or network connection. */
 public final class PresentationClock {
-    public record Frame(boolean active, double time, double progress, long generation) {}
+    public record Frame(boolean active, double time, double progress, long generation, double motionTime) {
+        public Frame(boolean active, double time, double progress, long generation) {
+            this(active, time, progress, generation, time);
+        }
+    }
     /** Sunset. In 26.3 rain allows sleep from about 12010 and clear skies from about 12542. */
     static final double EVENING = 12000;
     private static final long TICK_NANOS = 50_000_000L;
@@ -22,6 +26,11 @@ public final class PresentationClock {
     private boolean active;
     private boolean confirmed;
     private boolean returning;
+    private boolean awake;
+    /** Whole visual days retained until midday masks an authoritative day-number reset. */
+    private double epochOffset;
+    /** Continuous elapsed sky travel for clouds/exposure, independent of day-number reconciliation. */
+    private double motionOffset;
     private double previewTarget;
     private double previewLead;
     private long previewNanos;
@@ -50,12 +59,14 @@ public final class PresentationClock {
         boolean started = false;
         if (nowSleeping && !sleeping) {
             // A re-entry during the ease-back continues from the visible sky.
-            double lead = frame(now, authoritative).time() - authoritative;
+            double lead = frame(now, authoritative).time() - (authoritative + epochOffset);
             armed = true; woke = false;
             if (phase(authoritative) >= EVENING) {
+                awake = false;
                 previewNanos = now;
                 previewLead = lead;
-                previewTarget = Math.max(authoritative, Math.floor(authoritative / 24000.0 + 1) * 24000.0 - 500);
+                double displayed = authoritative + epochOffset;
+                previewTarget = Math.max(displayed, Math.floor(displayed / 24000.0 + 1) * 24000.0 - 500);
                 active = true;
                 confirmed = returning = false;
                 started = true;
@@ -65,6 +76,23 @@ public final class PresentationClock {
         sleeping = nowSleeping;
         if (armed && woke && now - wakeNanos > wakeWindowNanos) abort();
         return started;
+    }
+
+    /** Called before vanilla applies the packet. Returns true only for a new catch-up. */
+    public boolean update(double before, double after, float rate, long now, boolean smoothTimeJumps) {
+        boolean localSleep = sleeping || armed || (active && !awake);
+        if (!awake && update(before, after, rate, now)) return true;
+        if (enabled && smoothTimeJumps && !localSleep && rate == 1.0F && qualifies(before, after)) {
+            var shown = frame(now, before);
+            offset = phase(after - shown.time());
+            epochOffset = shown.time() + offset - after;
+            startNanos = now;
+            active = awake = true;
+            confirmed = returning = false;
+            return true;
+        }
+        if (awake && (Math.abs(after - before) > 20 || rate != 1.0F)) cancel();
+        return false;
     }
 
     /** Called before vanilla applies the packet. Returns true only for a new catch-up. */
@@ -90,7 +118,7 @@ public final class PresentationClock {
         }
         var shown = frame(now, before);
         startNanos = now;
-        offset = Math.max(0, after - shown.time());
+        offset = Math.max(0, after + epochOffset - shown.time());
         // The trails' end fade carries on from an ease-back instead of growing back.
         finishFrom = Math.max(.75, shown.progress());
         active = true;
@@ -100,29 +128,47 @@ public final class PresentationClock {
     }
 
     public Frame frame(long now, double authoritative) {
-        if (!active) return new Frame(false, authoritative, 1, generation);
+        authoritative += epochOffset;
+        if (!active) return presented(false, authoritative, 1);
+        if (awake) {
+            double p = Math.clamp((double)(now - startNanos) / durationNanos, 0, 1);
+            if (p >= 1) active = awake = false;
+            return presented(active, authoritative - offset * (1 - smooth(p)), p);
+        }
         if (!confirmed && woke && now - wakeNanos > wakeWindowNanos) abort();
         if (returning) {
             double p = Math.clamp((double)(now - returnNanos) / Math.max(1, durationNanos * 3 / 10), 0, 1);
-            if (p >= 1) { active = returning = false; return new Frame(false, authoritative, 1, generation); }
+            if (p >= 1) { active = returning = false; return presented(false, authoritative, 1); }
             // The preview stays frozen at the abort instant and eases out; the end fade covers the whole return.
             double lead = preview(returnNanos, authoritative) - authoritative;
-            return new Frame(true, authoritative + lead * (1 - smooth(p)), .8 + .2 * p, generation);
+            return presented(true, authoritative + lead * (1 - smooth(p)), .8 + .2 * p);
         }
         if (!confirmed) {
             double p = Math.clamp((double)(now - previewNanos) / durationNanos, 0, 1);
-            return new Frame(true, preview(now, authoritative), p * .75, generation);
+            return presented(true, preview(now, authoritative), p * .75);
         }
         // Confirmation continues from the last visible night, rather than exposing the server's morning jump.
         long finishNanos = Math.max(1, durationNanos * 2 / 5);
         double p = Math.clamp((double)(now - startNanos) / finishNanos, 0, 1);
-        if (p >= 1) { active = confirmed = false; return new Frame(false, authoritative, 1, generation); }
-        return new Frame(true, authoritative - offset * (1 - smooth(p)), finishFrom + (1 - finishFrom) * p, generation);
+        if (p >= 1) { active = confirmed = false; return presented(false, authoritative, 1); }
+        return presented(true, authoritative - offset * (1 - smooth(p)), finishFrom + (1 - finishFrom) * p);
+    }
+
+    private Frame presented(boolean active, double time, double progress) {
+        // Vanilla has no stars here and the supported pack strongly attenuates them. Dawn/dusk are deliberately excluded:
+        // their stars are still visible. Cloud/exposure travel does not include this whole-day rebase.
+        if (epochOffset != 0 && phase(time) >= 4000 && phase(time) <= 8000) {
+            time -= epochOffset;
+            previewTarget -= epochOffset;
+            motionOffset += epochOffset;
+            epochOffset = 0;
+        }
+        return new Frame(active, time, progress, generation, time + motionOffset);
     }
 
     /** Seconds into the preview while it runs, infinite once the skip is confirmed, and NaN when inactive or easing back. */
     public double previewSeconds(long now) {
-        if (!active || returning) return Double.NaN;
+        if (!active || returning || awake) return Double.NaN;
         return confirmed ? Double.POSITIVE_INFINITY : (now - previewNanos) / 1e9;
     }
 
@@ -131,6 +177,8 @@ public final class PresentationClock {
     public double finishFrom() { return finishFrom; }
     public boolean active() { return active; }
     public boolean returning() { return returning; }
+    public boolean awake() { return awake; }
+    public boolean shiftedEpoch() { return epochOffset != 0; }
 
     /** Cancel this presentation without interpreting a still-sleeping player as a new bed entry. */
     public void cancel() {
@@ -140,8 +188,9 @@ public final class PresentationClock {
     }
 
     public void reset() {
-        active = confirmed = returning = armed = sleeping = woke = false;
+        active = confirmed = returning = armed = sleeping = woke = awake = false;
         offset = previewLead = 0;
+        epochOffset = motionOffset = 0;
         generation++;
     }
 
@@ -160,4 +209,9 @@ public final class PresentationClock {
 
     private static double smooth(double p) { return p * p * (3 - 2 * p); }
     private static double phase(double time) { return time - Math.floor(time / 24000.0) * 24000.0; }
+    private static boolean qualifies(double before, double after) {
+        return Double.isFinite(before) && Double.isFinite(after) && Math.abs(after - before) > 20
+            && Math.abs(Math.IEEEremainder(after - before, 24000)) > 20
+            && (phase(before) < EVENING) != (phase(after) < EVENING);
+    }
 }

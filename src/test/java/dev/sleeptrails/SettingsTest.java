@@ -9,6 +9,20 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SettingsTest {
+    @Test void newPlayersGetZeroTiltButSavedAutoIsPreserved() {
+        assertEquals(0, Settings.parse("{}").tilt());
+        assertEquals(Settings.AUTO, Settings.parse("{\"tilt\":\"auto\"}").tilt());
+        assertEquals(35, Settings.parse("{\"tilt\":35}").tilt());
+    }
+
+    @Test void smoothTimeJumpsCanBeDisabledInTheFile() {
+        var disabled = Settings.parse("{\"timeJumps\":false}");
+        assertFalse(disabled.timeJumps());
+        assertEquals(disabled, Settings.parse(Settings.write(disabled)));
+        assertFalse(disabled.withCamera(Settings.Camera.CINEMATIC).withTilt(20).withTrails(false)
+            .withEffect(false).withEye(Settings.Eye.RAISED).timeJumps());
+        assertTrue(Settings.parse("{\"timeJumps\":\"false\"}").timeJumps());
+    }
     @Test void everyValueSurvivesTheFile() {
         for (var camera : Settings.Camera.values()) for (var eye : Settings.Eye.values()) for (int tilt : new int[] {Settings.AUTO, 0, 35, 60}) {
             var values = new Settings.Values(tilt != 35, tilt == 35, camera, tilt, eye);
@@ -22,8 +36,9 @@ class SettingsTest {
               "effect": true,
               "trails": true,
               "camera": "vanilla",
-              "tilt": "auto",
-              "eyePosition": "toward_feet"
+              "tilt": 0,
+              "eyePosition": "toward_feet",
+              "timeJumps": true
             }
             """, Settings.write(Settings.Values.DEFAULTS));
     }
@@ -32,7 +47,7 @@ class SettingsTest {
         var values = Settings.parse("{\"effect\": \"no\", \"trails\": false, \"camera\": \"orbit\", \"tilt\": 90.4, \"extra\": 1}");
         assertEquals(new Settings.Values(true, false, Settings.Camera.VANILLA, Settings.MAX_TILT, Settings.Eye.TOWARD_FEET), values);
         assertEquals(0, Settings.parse("{\"tilt\": -12}").tilt());
-        assertEquals(Settings.AUTO, Settings.parse("{\"tilt\": \"sideways\"}").tilt());
+        assertEquals(0, Settings.parse("{\"tilt\": \"sideways\"}").tilt());
         assertEquals(Settings.Values.DEFAULTS, Settings.parse("{}"));
     }
 

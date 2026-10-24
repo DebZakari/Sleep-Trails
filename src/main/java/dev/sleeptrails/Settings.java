@@ -24,17 +24,21 @@ public final class Settings {
     /** A tilt below zero is Auto, which follows the field of view (InBedCamera.tilt). */
     public static final int AUTO = -1, MAX_TILT = 60;
 
-    public record Values(boolean effect, boolean trails, Camera camera, int tilt, Eye eye) {
-        public static final Values DEFAULTS = new Values(true, true, Camera.VANILLA, AUTO, Eye.TOWARD_FEET);
+    public record Values(boolean effect, boolean trails, Camera camera, int tilt, Eye eye, boolean timeJumps) {
+        public static final Values DEFAULTS = new Values(true, true, Camera.VANILLA, 0, Eye.TOWARD_FEET, true);
+        public Values(boolean effect, boolean trails, Camera camera, int tilt, Eye eye) {
+            this(effect, trails, camera, tilt, eye, true);
+        }
         public Values {
             if (camera == null || eye == null) throw new NullPointerException("camera and eye");
             tilt = tilt < 0 ? AUTO : Math.min(tilt, MAX_TILT);
         }
-        public Values withEffect(boolean effect) { return new Values(effect, trails, camera, tilt, eye); }
-        public Values withTrails(boolean trails) { return new Values(effect, trails, camera, tilt, eye); }
-        public Values withCamera(Camera camera) { return new Values(effect, trails, camera, tilt, eye); }
-        public Values withTilt(int tilt) { return new Values(effect, trails, camera, tilt, eye); }
-        public Values withEye(Eye eye) { return new Values(effect, trails, camera, tilt, eye); }
+        public Values withEffect(boolean effect) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
+        public Values withTrails(boolean trails) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
+        public Values withCamera(Camera camera) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
+        public Values withTilt(int tilt) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
+        public Values withEye(Eye eye) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
+        public Values withTimeJumps(boolean timeJumps) { return new Values(effect, trails, camera, tilt, eye, timeJumps); }
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger("sleep_trails");
@@ -61,6 +65,7 @@ public final class Settings {
     public static void change(Values changed) { values = changed; }
     public static boolean effect() { return values.effect() && !EFFECT_OFF; }
     public static boolean trails() { return values.trails() && !TRAILS_OFF; }
+    public static boolean timeJumps() { return values.timeJumps(); }
 
     public static void save() {
         if (file == null) return;
@@ -80,7 +85,7 @@ public final class Settings {
         var d = Values.DEFAULTS;
         return new Values(bool(root.get("effect"), d.effect()), bool(root.get("trails"), d.trails()),
             choice(root.get("camera"), Camera.class, d.camera()), tilt(root.get("tilt"), d.tilt()),
-            choice(root.get("eyePosition"), Eye.class, d.eye()));
+            choice(root.get("eyePosition"), Eye.class, d.eye()), bool(root.get("timeJumps"), d.timeJumps()));
     }
 
     static String write(Values values) {
@@ -91,6 +96,7 @@ public final class Settings {
         if (values.tilt() == AUTO) root.addProperty("tilt", "auto");
         else root.addProperty("tilt", values.tilt());
         root.addProperty("eyePosition", name(values.eye()));
+        root.addProperty("timeJumps", values.timeJumps());
         return new GsonBuilder().setPrettyPrinting().create().toJson(root) + "\n";
     }
 

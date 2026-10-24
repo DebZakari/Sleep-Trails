@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0-alpha.3 (unreleased)
+
+- Smooth server time jumps between day and night over five seconds while awake, including another player skipping the night. Smooth Time Jumps is enabled by default and can be disabled separately from in-bed transitions.
+- Retarget an awake transition from the visible sky when another qualifying time jump arrives. Camera and movement remain under your control.
+- Default the Vanilla camera mode's tilt to 0°, labeled "0° (Vanilla)". Existing saved Auto and custom angles are preserved.
+
 ## 0.1.0-alpha.2 (2026-10-24)
 
 - Vanilla clouds move with the sky during the sleep transition, then resume their normal speed without jumping back to their previous position.
