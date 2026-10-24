@@ -1,0 +1,120 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = "${project.mod_version}+mc${project.minecraft_version}"
+group = project.maven_group
+
+repositories { mavenCentral() }
+
+def localProperties = new Properties()
+def localPropertiesFile = file('gradle-local.properties')
+if (localPropertiesFile.isFile()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def localSetting = { name, fallback ->
+    providers.gradleProperty(name).orElse(localProperties.getProperty(name, fallback)).get()
+}
+def referenceDirectory = file(localSetting('referenceDirectory', 'local-dependencies'))
+def referencePack = file(localSetting('referencePack', 'local-dependencies/ComplementaryUnbound_r5.9.3.zip'))
+def referenceDefinitions = new groovy.json.JsonSlurper().parse(file('gradle/reference-dependencies.json'))
+// Compile-only dependencies are supplied locally and verified before use.
+def references = referenceDefinitions.collectEntries { reference ->
+    [(reference.id): [jar: new File(referenceDirectory, reference.file), sha256: reference.sha256]]
+}
+def referenceJars = references.keySet().collect { layout.buildDirectory.file("reference/${it}.jar") }
+def prepareReferences = tasks.register('prepareReferences') {
+    inputs.files references.values().collect { it.jar }
+    outputs.files referenceJars
+    doLast {
+        references.each { id, reference ->
+            if (!reference.jar.isFile()) {
+                throw new GradleException("Missing ${reference.jar.name}. Set referenceDirectory in gradle-local.properties or with -PreferenceDirectory=PATH. See docs/BUILDING.md.")
+            }
+            def actual = java.security.MessageDigest.getInstance('SHA-256').digest(reference.jar.bytes).encodeHex().toString()
+            if (actual != reference.sha256) throw new GradleException("The ${id} reference differs from the pinned compatibility identity")
+            copy { from reference.jar; into layout.buildDirectory.dir('reference'); rename { "${id}.jar" } }
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    compileOnly files(referenceJars).builtBy(prepareReferences)
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+sourceSets {
+    fixture {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+    // Gate 4's performance capture. It compiles against the mod, but only PresentProbe touches it, so it also runs without it.
+    perf {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+tasks.register('fixtureJar', Jar) {
+    dependsOn tasks.named('fixtureClasses')
+    archiveFileName = 'sleep-trails-fixture.jar'
+    from sourceSets.fixture.output
+}
+
+tasks.register('perfJar', Jar) {
+    dependsOn tasks.named('perfClasses')
+    archiveFileName = 'sleep-trails-perf.jar'
+    from sourceSets.perf.output
+}
+
+tasks.register('exportFixtureClasspath') {
+    dependsOn tasks.named('classes')
+    doLast {
+        def destination = layout.buildDirectory.file('fixture-classpath.txt').get().asFile
+        destination.parentFile.mkdirs()
+        destination.text = (sourceSets.main.runtimeClasspath - sourceSets.main.output).asPath
+    }
+}
+
+test {
+    useJUnitPlatform()
+    workingDir = layout.buildDirectory.dir('test-run').get().asFile
+    doFirst { workingDir.mkdirs() }
+    inputs.file(referencePack).withPropertyName('referencePack')
+    systemProperty 'sleeptrails.referencePack', referencePack.absolutePath
+    doFirst {
+        if (!referencePack.isFile()) {
+            throw new GradleException('The shader adapter test needs ComplementaryUnbound_r5.9.3.zip. Set referencePack in gradle-local.properties or with -PreferencePack=PATH. See docs/BUILDING.md.')
+        }
+    }
+}
+
+loom {
+    runs {
+        client {
+            runDir 'run/client'
+            vmArgs '-Xms512M', '-Xmx2G'
+        }
+        // A server fixture must be vanilla, launched separately from Loom's modded server.
+        remove server
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand version: project.version }
+}
+
+// MIT asks for the notice in every copy.
+jar { from('LICENSE') { rename { "${it}_sleep_trails" } } }
+
+tasks.withType(JavaCompile).configureEach { options.release = 25 }
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+    withSourcesJar()
+}

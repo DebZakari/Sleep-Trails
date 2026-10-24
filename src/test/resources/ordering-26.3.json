@@ -1,0 +1,120 @@
+{
+  "source": "Unmodified Minecraft 26.3 loopback server, ordering-04",
+  "sourceTraceSha256": "dc22210e7af65ee3ccfe20a04b444ea6f377dd357ce8cb300b3ce155e8b1acc1",
+  "events": [
+    {
+      "kind": "time",
+      "nanos": 229400,
+      "before": 0,
+      "after": 192.0,
+      "rate": 1.0,
+      "case": "join"
+    },
+    {
+      "kind": "time",
+      "nanos": 2911394400,
+      "before": 257,
+      "after": 13000.0,
+      "rate": 1.0,
+      "case": "early_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 5432081300,
+      "sleeping": true,
+      "clock": 13050,
+      "case": "early_sleep"
+    },
+    {
+      "kind": "time",
+      "nanos": 10410544000,
+      "before": 13149,
+      "after": 24000.0,
+      "rate": 1.0,
+      "case": "early_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 10416518800,
+      "sleeping": false,
+      "clock": 24000,
+      "case": "early_sleep"
+    },
+    {
+      "kind": "time",
+      "nanos": 18981872600,
+      "before": 24172,
+      "after": 23000.0,
+      "rate": 1.0,
+      "case": "late_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 21526509900,
+      "sleeping": true,
+      "clock": 23051,
+      "case": "late_sleep"
+    },
+    {
+      "kind": "time",
+      "nanos": 26500375800,
+      "before": 23150,
+      "after": 24000.0,
+      "rate": 1.0,
+      "case": "late_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 26501732200,
+      "sleeping": false,
+      "clock": 24000,
+      "case": "late_sleep"
+    },
+    {
+      "kind": "time",
+      "nanos": 35082077600,
+      "before": 24172,
+      "after": 14000.0,
+      "rate": 1.0,
+      "case": "aborted_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 37614374800,
+      "sleeping": true,
+      "clock": 14051,
+      "case": "aborted_sleep"
+    },
+    {
+      "kind": "sleep",
+      "nanos": 39107024400,
+      "sleeping": false,
+      "clock": 14080,
+      "case": "aborted_sleep"
+    },
+    {
+      "kind": "time",
+      "nanos": 51179466200,
+      "before": 14322,
+      "after": 13000.0,
+      "rate": 1.0,
+      "case": "awake_command"
+    },
+    {
+      "kind": "time",
+      "nanos": 53691994300,
+      "before": 13050,
+      "after": 24000.0,
+      "rate": 1.0,
+      "case": "awake_command"
+    },
+    {
+      "kind": "time",
+      "nanos": 61268299500,
+      "before": 24151,
+      "after": 23950.0,
+      "rate": 1.0,
+      "case": "ordinary_rollover"
+    }
+  ]
+}

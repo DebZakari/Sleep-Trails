@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "sleep_trails",
+  "version": "${version}",
+  "name": "Sleep Trails",
+  "description": "While you sleep, the night sky runs on toward morning instead of jumping to day, with long-exposure star trails for Vitrail and Complementary Unbound r5.9.3. Client-only.",
+  "authors": ["EngrLightning"],
+  "license": "MIT",
+  "icon": "assets/sleep_trails/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.sleeptrails.SleepTrailsClient"],
+    "modmenu": ["dev.sleeptrails.config.ModMenuEntry"],
+    "sodium:config_api_user": ["dev.sleeptrails.config.SodiumEntry"]
+  },
+  "mixins": ["sleep-trails.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.3",
+    "java": ">=25"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "sodium": "*"
+  }
+}
