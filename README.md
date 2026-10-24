@@ -2,6 +2,10 @@
 
 Sleep Trails is a client-side Fabric mod for Minecraft 26.3. It smooths the sky's transition from night to morning while you sleep and adds long-exposure star trails.
 
+![Star trails during the transition from night to morning](docs/media/showcase.gif)
+
+*Sleeping with Vitrail and Complementary Unbound r5.9.3.*
+
 The transition starts in bed and finishes after waking. Server time and gameplay stay unchanged. Other players and the server do not need the mod.
 
 **Development version:** `0.1.0-dev.10`. No public release is available yet.

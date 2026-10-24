@@ -1,4 +1,4 @@
-# Only the source, build files, license and public documentation belong in Git.
+# Only the source, build files, license and public documentation and media belong in Git.
 /*
 !/.gitignore
 !/.gitattributes
@@ -26,6 +26,9 @@
 
 /docs/*
 !/docs/BUILDING.md
+!/docs/media/
+/docs/media/*
+!/docs/media/showcase.gif
 
 # Public Markdown files are explicitly listed above and below.
 *.md
