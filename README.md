@@ -1,46 +1,79 @@
-# Sleep Trails
+<p align="center">
+  <img src="src/main/resources/assets/sleep_trails/icon.png" width="96" height="96" alt="">
+</p>
 
-Sleep Trails is a client-side Fabric mod for Minecraft 26.3. It smooths the sky's transition from night to morning while you sleep and adds long-exposure star trails.
+<h1 align="center">Sleep Trails</h1>
 
-![Clicking the bed, watching star trails during sleep and getting up in the morning, with the vanilla camera at zero tilt](docs/media/showcase.gif)
+<p align="center">
+  <strong>Watch the night turn into morning.</strong><br>
+  Smooth sleep transitions and long-exposure star trails for Minecraft.
+</p>
 
-*Vanilla camera at 0° tilt, with Vitrail and Complementary Unbound r5.9.3.*
+<p align="center">
+  <a href="https://fabricmc.net/use/installer/"><img src="docs/media/badges/fabric.svg" height="48" alt="Supports Fabric"></a>
+  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 1 on GitHub"></a>
+  <img src="docs/media/badges/modrinth-coming-soon.svg" height="48" alt="Modrinth: coming soon">
+</p>
 
-The transition starts in bed and finishes after waking. Server time and gameplay stay unchanged. Other players and the server do not need the mod.
+<p align="center">
+  Minecraft 26.3 · Client-side · Alpha 1
+</p>
 
-**Current release:** [0.1.0 Alpha 1](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1), an early test release for Minecraft 26.3. See the [changelog](CHANGELOG.md) for release notes.
+<p align="center">
+  <a href="#install">Install</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#compatibility">Compatibility</a> ·
+  <a href="#settings">Settings</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="https://github.com/DebZakari/Sleep-Trails/issues">Report a bug</a>
+</p>
+
+<p align="center">
+  <img src="docs/media/showcase.gif" width="800" alt="Clicking the bed, watching star trails during sleep and getting up in the morning, with the vanilla camera at zero tilt">
+  <br>
+  <sub>Vanilla camera at 0° tilt, with Vitrail and Complementary Unbound r5.9.3.</sub>
+</p>
+
+Sleep Trails smooths the sky from night to morning while you sleep, with stars tracing arcs across the sky. The transition starts in bed and finishes after waking.
+
+**Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
+
+> [!NOTE]
+> **[0.1.0 Alpha 1](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
 
 ## Features
 
-- A five-second sky transition while you sleep, followed by a two-second finish when the server skips the night.
-- Star trails using vanilla's stars, or the supported shader pack's stars.
-- A smooth return to the current sky if you leave bed before the night skips.
-- Adjustable camera tilt and eye position, plus a Cinematic camera mode.
-- Settings in Mod Menu and Sodium's Video Settings when those mods are installed.
-
-## Requirements and compatibility
-
-Requires Minecraft 26.3, Fabric Loader 0.19.5 or newer, and Java 25 or newer.
-
-| Renderer | Behavior |
-|---|---|
-| Vanilla, without Iris or Vitrail | Sky transition and star trails |
-| Vitrail `0.13.0-beta.vultrum.4` with Complementary Unbound r5.9.3 | Sky transition and star trails |
-| That Vitrail build with shaders off or no pack loaded | Sky transition and vanilla star trails |
-| That Vitrail build with another pack | Sky transition only |
-| Other Vitrail builds, or Iris | Effect disabled |
-
-The Vitrail adapter checks the renderer JAR and shader pack against the supported file hashes. A matching version label alone is insufficient.
-
-Fabric API is not required. Sodium and Mod Menu are optional at runtime.
+- **A gradual sunrise.** A five-second sky transition begins while you sleep, followed by a two-second finish when the server skips the night.
+- **Long-exposure star trails.** Uses vanilla's stars, or the supported shader pack's stars.
+- **Smooth interrupted sleep.** Leaving bed before the night skips eases the sky back to the current time.
+- **Your choice of camera.** Adjust the in-bed tilt and eye position, or use Cinematic mode for a rising view and a third-person orbit.
+- **In-game settings.** Configure the effect through Mod Menu or Sodium's Video Settings when those mods are installed.
 
 ## Install
 
-1. Download `sleep-trails-0.1.0-alpha.1+mc26.3.jar` from [GitHub Releases](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1).
-2. Copy it into your Fabric client's `mods` folder.
-3. Start Minecraft. For the supported shader setup, install [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.4) and Complementary Unbound separately.
+**Download:** [0.1.0 Alpha 1 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1). Modrinth is coming soon.
 
-Install Sleep Trails on the client only. For bug reports, [open an issue](https://github.com/DebZakari/Sleep-Trails/issues) with your Minecraft version, mod list, renderer and shader pack, and steps to reproduce the problem.
+You need **Minecraft 26.3**, **Fabric Loader 0.19.5 or newer**, and **Java 25 or newer**.
+
+1. Download `sleep-trails-0.1.0-alpha.1+mc26.3.jar` from the release above.
+2. Copy it into your Fabric client's `mods` folder.
+3. Launch Minecraft and sleep in an Overworld bed from sunset onward.
+
+**Fabric API is not required.** Sodium and Mod Menu are optional. Shader packs are optional; for shader trails, install [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.4) and Complementary Unbound separately.
+
+## Compatibility
+
+Sleep Trails currently supports **Fabric on Minecraft 26.3**. Install it on the client only.
+
+| Renderer | Sky transition | Star trails |
+|---|---|---|
+| Vanilla, without Iris or Vitrail | Yes | Vanilla stars |
+| Vitrail `0.13.0-beta.vultrum.4` with Complementary Unbound r5.9.3 | Yes | Shader pack's stars |
+| That Vitrail build with shaders off or no pack loaded | Yes | Vanilla stars |
+| That Vitrail build with another pack | Yes | Unavailable |
+| Other Vitrail builds, or Iris | Effect disabled | Effect disabled |
+
+The Vitrail adapter checks the renderer JAR and shader pack against the supported file hashes. A matching version label alone is insufficient.
 
 ## Settings
 
@@ -56,16 +89,30 @@ Open Sleep Trails from Mod Menu or Sodium's Video Settings. Changes made during 
 
 Auto tilt follows your vertical field of view. Cinematic mode raises the view while sleeping and orbits the sleeper in third person. Camera changes affect rendering only.
 
+<details>
+<summary>Configuration file and JVM arguments</summary>
+
 Settings are saved in `config/sleep_trails.json`. You can also use these JVM arguments:
 
 - `-Dsleeptrails.disabled=true` disables the effect.
 - `-Dsleeptrails.trails.disabled=true` disables trails while keeping the transition.
+
+</details>
 
 ## Current limitations
 
 - The effect runs in the Overworld with its normal clock, for sleeps entered from sunset onward.
 - Shader support is limited to the exact files listed above.
 - On servers that deliver the time update after waking, the sky may start returning toward night before continuing to morning. Updates arriving more than 1.5 seconds after waking can still cause a jump.
+
+## Reporting bugs
+
+[Open an issue](https://github.com/DebZakari/Sleep-Trails/issues) with:
+
+- your Minecraft version and mod list,
+- your renderer and shader pack, if any,
+- what happened and the steps to reproduce it,
+- a screenshot or clip for visual issues, and `logs/latest.log` for errors or crashes.
 
 ## Build
 
@@ -76,3 +123,5 @@ The mod JAR is written to `build/libs/`. Copy the JAR without the `-sources` suf
 ## License
 
 Sleep Trails is licensed under the [MIT License](LICENSE). Third-party mods and shader packs retain their own licenses and are supplied separately.
+
+<sub>Badges adapted from <a href="https://github.com/intergrav/devins-badges">Devin's Badges</a> (CC0).</sub>

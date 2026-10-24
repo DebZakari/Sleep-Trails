@@ -30,6 +30,11 @@
 !/docs/media/
 /docs/media/*
 !/docs/media/showcase.gif
+!/docs/media/badges/
+/docs/media/badges/*
+!/docs/media/badges/fabric.svg
+!/docs/media/badges/github.svg
+!/docs/media/badges/modrinth-coming-soon.svg
 
 # Public Markdown files are explicitly listed above and below.
 *.md
