@@ -11,12 +11,12 @@
 
 <p align="center">
   <a href="https://fabricmc.net/use/installer/"><img src="docs/media/badges/fabric.svg" height="48" alt="Supports Fabric"></a>
-  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 2 on GitHub"></a>
+  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 3 on GitHub"></a>
   <img src="docs/media/badges/modrinth-coming-soon.svg" height="48" alt="Modrinth: coming soon">
 </p>
 
 <p align="center">
-  Minecraft 26.3 · Client-side · Alpha 2
+  Minecraft 26.3 · Client-side · Alpha 3
 </p>
 
 <p align="center">
@@ -39,11 +39,9 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 **Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
 
 > [!NOTE]
-> **[0.1.0 Alpha 2](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
+> **[0.1.0 Alpha 3](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
 
 ## Features
-
-The time-jump option and zero-tilt default below are in development for Alpha 3. The published Alpha 2 download has the earlier in-bed behavior.
 
 - **A gradual sunrise.** A five-second sky transition begins while you sleep, followed by a two-second finish when the server skips the night.
 - **Smooth time jumps while awake.** A five-second transition follows other players' night skips and server commands that jump between day and night, with your camera and movement under your control. Gameplay follows server time immediately while the visuals catch up.
@@ -55,11 +53,11 @@ The time-jump option and zero-tilt default below are in development for Alpha 3.
 
 ## Install
 
-**Download:** [0.1.0 Alpha 2 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2). Modrinth is coming soon.
+**Download:** [0.1.0 Alpha 3 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3). Modrinth is coming soon.
 
 You need **Minecraft 26.3**, **Fabric Loader 0.19.5 or newer**, and **Java 25 or newer**.
 
-1. Download `sleep-trails-0.1.0-alpha.2+mc26.3.jar` from the release above.
+1. Download `sleep-trails-0.1.0-alpha.3+mc26.3.jar` from the release above.
 2. Copy it into your Fabric client's `mods` folder.
 3. Launch Minecraft and sleep in an Overworld bed from sunset onward.
 
@@ -108,7 +106,7 @@ Settings are saved in `config/sleep_trails.json`. You can also use these JVM arg
 
 ## Current limitations
 
-- The effect runs in the Overworld with its normal clock, for sleeps entered from sunset onward.
+- The effect runs in the Overworld with its normal clock. In-bed transitions require entering sleep from sunset onward.
 - Shader support is limited to the exact files listed above.
 - On servers that deliver the time update after waking, the sky may start returning toward night before continuing to morning. Updates arriving more than 1.5 seconds after waking can still cause a jump.
 

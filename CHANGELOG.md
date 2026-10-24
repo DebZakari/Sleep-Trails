@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0-alpha.3 (unreleased)
+## 0.1.0-alpha.3 (2026-10-25)
 
 - Smooth server time jumps between day and night over five seconds while awake, including another player skipping the night. Smooth Time Jumps is enabled by default and can be disabled separately from in-bed transitions.
 - Retarget an awake transition from the visible sky when another qualifying time jump arrives. Camera and movement remain under your control.

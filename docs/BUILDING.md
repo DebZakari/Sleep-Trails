@@ -47,7 +47,7 @@ You can override the local dependency paths on the command line:
 
 Gradle downloads Minecraft, Fabric Loader, JUnit and the build tooling on the first build. Add `--offline` when those dependencies are already cached.
 
-`build` compiles the mod and runs 46 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
+`build` compiles the mod and runs 59 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
 
 The output is `build/libs/sleep-trails-<mod_version>+mc26.3.jar`, using the version in `gradle.properties`. The adjacent `-sources.jar` contains source code and is not an installable mod.
 
