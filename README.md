@@ -11,12 +11,12 @@
 
 <p align="center">
   <a href="https://fabricmc.net/use/installer/"><img src="docs/media/badges/fabric.svg" height="48" alt="Supports Fabric"></a>
-  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 1 on GitHub"></a>
+  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 2 on GitHub"></a>
   <img src="docs/media/badges/modrinth-coming-soon.svg" height="48" alt="Modrinth: coming soon">
 </p>
 
 <p align="center">
-  Minecraft 26.3 · Client-side · Alpha 1
+  Minecraft 26.3 · Client-side · Alpha 2
 </p>
 
 <p align="center">
@@ -39,23 +39,24 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 **Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
 
 > [!NOTE]
-> **[0.1.0 Alpha 1](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
+> **[0.1.0 Alpha 2](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
 
 ## Features
 
 - **A gradual sunrise.** A five-second sky transition begins while you sleep, followed by a two-second finish when the server skips the night.
 - **Long-exposure star trails.** Uses vanilla's stars, or the supported shader pack's stars.
+- **Clouds that follow the transition.** Vanilla clouds drift with the sky, with trails hidden behind cloud bodies and visible through gaps.
 - **Smooth interrupted sleep.** Leaving bed before the night skips eases the sky back to the current time.
 - **Your choice of camera.** Adjust the in-bed tilt and eye position, or use Cinematic mode for a rising view and a third-person orbit.
 - **In-game settings.** Configure the effect through Mod Menu or Sodium's Video Settings when those mods are installed.
 
 ## Install
 
-**Download:** [0.1.0 Alpha 1 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1). Modrinth is coming soon.
+**Download:** [0.1.0 Alpha 2 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.2). Modrinth is coming soon.
 
 You need **Minecraft 26.3**, **Fabric Loader 0.19.5 or newer**, and **Java 25 or newer**.
 
-1. Download `sleep-trails-0.1.0-alpha.1+mc26.3.jar` from the release above.
+1. Download `sleep-trails-0.1.0-alpha.2+mc26.3.jar` from the release above.
 2. Copy it into your Fabric client's `mods` folder.
 3. Launch Minecraft and sleep in an Overworld bed from sunset onward.
 

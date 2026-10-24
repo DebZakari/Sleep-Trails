@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2026-10-24)
+
+- Vanilla clouds move with the sky during the sleep transition, then resume their normal speed without jumping back to their previous position.
+- Star trails are hidden behind vanilla cloud bodies and remain visible through gaps in the clouds.
+
 ## 0.1.0-alpha.1 (2026-10-24)
 
 First public alpha for Minecraft 26.3 on Fabric.

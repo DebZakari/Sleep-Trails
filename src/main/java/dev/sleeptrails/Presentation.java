@@ -18,6 +18,7 @@ import java.util.function.DoubleSupplier;
 /** A separate environment sampler used only by camera rendering and the guarded shader adapter. */
 public final class Presentation {
     private static final PresentationClock CLOCK = new PresentationClock(5_000_000_000L, 250_000_000L, 1_500_000_000L);
+    private static final CloudClock CLOUDS = new CloudClock();
     /** Read between transitions, so a setting changed during one applies from the next sleep. */
     private static boolean effect = true;
     private static ClientLevel world;
@@ -43,6 +44,7 @@ public final class Presentation {
         boolean enabled = effect && supported(mc.level) && VitrailCompatibility.supportedRenderer();
         CLOCK.context(mc.level, enabled);
         if (world != mc.level) {
+            CLOUDS.reset();
             world = mc.level;
             environment = null;
             exposure = null;
@@ -80,6 +82,7 @@ public final class Presentation {
         }
         long now = System.nanoTime();
         frame = CLOCK.frame(now, authoritative);
+        CLOUDS.update(world == null ? 0 : world.getGameTime() + (double)partialTick, frame);
         previewSeconds = CLOCK.previewSeconds(now);
         StarExposure.update(frame);
         if (frame.active()) {
@@ -167,6 +170,8 @@ public final class Presentation {
     }
 
     public static PresentationClock.Frame frame() { return frame; }
+    /** Extra animation time for vanilla clouds, retained after the sleep to preserve their position. */
+    public static double cloudOffset() { return CLOUDS.offset(); }
     /** This frame's seconds into the sleep's preview: NaN without one, infinite once the skip is confirmed. */
     public static double previewSeconds() { return previewSeconds; }
     public static long shaderTime(long authoritative) { return frame.active() ? (long)Math.floor(frame.time()) : authoritative; }

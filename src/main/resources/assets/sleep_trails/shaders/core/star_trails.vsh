@@ -6,6 +6,7 @@
 
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec2 UV0;
+layout(location = 0) out vec3 cloudRay;
 
 void main() {
     // ModelOffset.x is the arc the stars turned through over the exposure, in radians; UV0.x is how far back along it
@@ -19,4 +20,5 @@ void main() {
         position = vec3(Position.x, c * Position.y - s * Position.z, s * Position.y + c * Position.z);
     }
     gl_Position = ProjMat * ModelViewMat * vec4(position, 1.0);
+    cloudRay = mat3(TextureMat) * position;
 }

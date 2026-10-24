@@ -3,6 +3,6 @@
   "package": "dev.sleeptrails.mixin",
   "compatibilityLevel": "JAVA_25",
   "plugin": "dev.sleeptrails.VitrailCompatibility",
-  "client": ["ClockObservationMixin", "SleepObservationMixin", "ClientTickMixin", "FrameMixin", "CameraEnvironmentMixin", "LightmapRefreshMixin", "SleepOverlayMixin", "VitrailClockMixin", "VitrailSourceMixin", "VitrailUniformMixin", "VitrailLifecycleMixin", "InBedCameraMixin", "PipelineCacheAccessor", "VanillaTrailsMixin", "TrailShaderMixin", "TrailPipelineMixin"],
+  "client": ["ClockObservationMixin", "SleepObservationMixin", "ClientTickMixin", "FrameMixin", "CameraEnvironmentMixin", "CloudTimeMixin", "LightmapRefreshMixin", "SleepOverlayMixin", "VitrailClockMixin", "VitrailSourceMixin", "VitrailUniformMixin", "VitrailLifecycleMixin", "InBedCameraMixin", "PipelineCacheAccessor", "VanillaTrailsMixin", "TrailShaderMixin", "TrailPipelineMixin"],
   "injectors": { "defaultRequire": 1 }
 }
