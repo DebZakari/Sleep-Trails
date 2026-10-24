@@ -3,6 +3,7 @@
 !/.gitignore
 !/.gitattributes
 !/README.md
+!/CHANGELOG.md
 !/LICENSE
 !/build.gradle
 !/settings.gradle
@@ -33,6 +34,7 @@
 # Public Markdown files are explicitly listed above and below.
 *.md
 !/README.md
+!/CHANGELOG.md
 !/docs/BUILDING.md
 
 # Local instructions, settings, credentials and generated files at any depth.

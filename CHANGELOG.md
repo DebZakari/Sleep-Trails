@@ -1,0 +1,17 @@
+# Changelog
+
+## 0.1.0-alpha.1 (2026-10-24)
+
+First public alpha for Minecraft 26.3 on Fabric.
+
+- Smooths the sky from night to morning while sleeping, continuing after waking when needed.
+- Adds star trails to vanilla rendering and the supported Vitrail and Complementary Unbound setup.
+- Eases back to the current sky when sleep is interrupted, and handles delayed time updates from servers.
+- Includes Vanilla and Cinematic camera modes, adjustable tilt and eye position, and settings in Mod Menu and Sodium.
+- Runs on the client. Other players and the server do not need the mod.
+
+Requires Java 25 or newer and Fabric Loader 0.19.5 or newer. Fabric API is not required.
+
+Shader trails require the exact Vitrail `0.13.0-beta.vultrum.4` build and Complementary Unbound r5.9.3. With that Vitrail build and another pack, the sky transition works without shader star trails. Other Vitrail builds and Iris disable the effect.
+
+The effect runs in the Overworld with its normal clock, for sleeps entered from sunset onward. Delayed server time updates can make the sky briefly turn back toward night; updates received more than 1.5 seconds after waking can still cause a jump.

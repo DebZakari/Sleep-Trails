@@ -49,7 +49,11 @@ Gradle downloads Minecraft, Fabric Loader, JUnit and the build tooling on the fi
 
 `build` compiles the mod and runs 41 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
 
-The output is `build/libs/sleep-trails-0.1.0-dev.10+mc26.3.jar`. The adjacent `-sources.jar` contains source code and is not an installable mod.
+The output is `build/libs/sleep-trails-0.1.0-alpha.1+mc26.3.jar`. The adjacent `-sources.jar` contains source code and is not an installable mod.
+
+## Version numbers
+
+Alpha versions use `0.1.0-alpha.N`, increasing `N` for each release. The build appends the Minecraft version as metadata, such as `0.1.0-alpha.1+mc26.3`. Git tags use `v0.1.0-alpha.N` without the Minecraft metadata.
 
 ## Development client
 

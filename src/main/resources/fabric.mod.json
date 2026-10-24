@@ -3,8 +3,13 @@
   "id": "sleep_trails",
   "version": "${version}",
   "name": "Sleep Trails",
-  "description": "While you sleep, the night sky runs on toward morning instead of jumping to day, with long-exposure star trails for Vitrail and Complementary Unbound r5.9.3. Client-only.",
+  "description": "Smooths the night-to-morning sky transition during sleep, with star trails for vanilla rendering and the supported Vitrail shader setup. Client-side only.",
   "authors": ["EngrLightning"],
+  "contact": {
+    "homepage": "https://github.com/DebZakari/Sleep-Trails",
+    "sources": "https://github.com/DebZakari/Sleep-Trails",
+    "issues": "https://github.com/DebZakari/Sleep-Trails/issues"
+  },
   "license": "MIT",
   "icon": "assets/sleep_trails/icon.png",
   "environment": "client",

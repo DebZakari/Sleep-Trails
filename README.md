@@ -8,7 +8,7 @@ Sleep Trails is a client-side Fabric mod for Minecraft 26.3. It smooths the sky'
 
 The transition starts in bed and finishes after waking. Server time and gameplay stay unchanged. Other players and the server do not need the mod.
 
-**Development version:** `0.1.0-dev.10`. No public release is available yet.
+**Current release:** [0.1.0 Alpha 1](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1), an early test release for Minecraft 26.3. See the [changelog](CHANGELOG.md) for release notes.
 
 ## Features
 
@@ -33,6 +33,14 @@ Requires Minecraft 26.3, Fabric Loader 0.19.5 or newer, and Java 25 or newer.
 The Vitrail adapter checks the renderer JAR and shader pack against the supported file hashes. A matching version label alone is insufficient.
 
 Fabric API is not required. Sodium and Mod Menu are optional at runtime.
+
+## Install
+
+1. Download `sleep-trails-0.1.0-alpha.1+mc26.3.jar` from [GitHub Releases](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.1).
+2. Copy it into your Fabric client's `mods` folder.
+3. Start Minecraft. For the supported shader setup, install [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.4) and Complementary Unbound separately.
+
+Install Sleep Trails on the client only. For bug reports, [open an issue](https://github.com/DebZakari/Sleep-Trails/issues) with your Minecraft version, mod list, renderer and shader pack, and steps to reproduce the problem.
 
 ## Settings
 
