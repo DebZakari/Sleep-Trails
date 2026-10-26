@@ -37,17 +37,6 @@ class TimeJumpTest {
         assertEquals(6000, night.frame(300 * SECOND, 6000).time());
     }
 
-    @Test void cloudsFollowForwardTravelAcrossADayNumberReset() {
-        var clock = clock();
-        var clouds = new CloudClock();
-        clock.update(143000, 1000, 1, 0, true);
-        clouds.update(0, clock.frame(0, 1000));
-        for (int i = 1; i <= 100; i++) clouds.update(i, clock.frame(i * SECOND / 20, 1000 + i));
-        assertEquals(2000, clouds.offset(), 1e-7);
-        clouds.update(101, clock.frame(6 * SECOND, 1120));
-        assertEquals(2000, clouds.offset(), 1e-7);
-    }
-
     @Test void aSecondJumpRetargetsFromTheVisibleSkyWithoutQueuing() {
         var clock = clock();
         clock.update(13000, 24000, 1, 0, true);

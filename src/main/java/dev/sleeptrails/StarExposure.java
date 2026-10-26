@@ -3,16 +3,15 @@ package dev.sleeptrails;
 /** Frame-owned presentation exposure. No image history, shader clocks or authoritative state are advanced here. */
 public final class StarExposure {
     public record Sample(float ticks, int clockMod, long generation) {}
-    /** Read as each sleep begins, so the trails setting applies from the next sleep. */
-    private static boolean trails = true;
+    private boolean trails = true;
     public static final float MAX_TICKS = 1024;
-    private static double start;
-    private static volatile Sample sample = new Sample(0, 0, 0);
-    private StarExposure() {}
+    private double start;
+    private Sample sample = new Sample(0, 0, 0);
+    StarExposure() {}
 
     /** A re-entry during an ease-back keeps the current trail width instead of collapsing it. */
-    public static void begin(double motionTime) { start = motionTime - sample.ticks(); trails = Settings.trails(); }
-    public static void update(PresentationClock.Frame frame) {
+    void begin(double motionTime, boolean trails) { start = motionTime - sample.ticks(); this.trails = trails; }
+    void update(PresentationClock.Frame frame) {
         float ticks = width(frame.active() && trails, start, frame.motionTime(), frame.progress());
         sample = new Sample(ticks, (int)Math.floorMod((long)Math.floor(frame.time()), 2_400_000L), frame.generation());
     }
@@ -30,6 +29,6 @@ public final class StarExposure {
         double degrees = Math.IEEEremainder(now - start, 360);
         return degrees > 0 ? (float)Math.toRadians(degrees) : 0;
     }
-    public static Sample sample() { return sample; }
-    public static void reset() { sample = new Sample(0, 0, sample.generation() + 1); }
+    Sample sample() { return sample; }
+    void reset() { sample = new Sample(0, 0, sample.generation() + 1); }
 }

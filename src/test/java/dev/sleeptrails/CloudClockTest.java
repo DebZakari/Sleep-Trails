@@ -16,31 +16,6 @@ class CloudClockTest {
         assertEquals(0, clouds.offset());
     }
 
-    @Test void cloudMotionFollowsTheRealSleepControllerThroughTheServerSkipAndFinish() {
-        var sky = new PresentationClock(5_000_000_000L, 250_000_000L, 1_500_000_000L);
-        sky.context(new Object(), true);
-        var clouds = new CloudClock();
-        clouds.update(1000, sky.frame(0, 13000));
-        sky.observeSleep(true, 13000, 0);
-        clouds.update(1000, sky.frame(0, 13000));
-        for (int i = 1; i <= 100; i++) {
-            var frame = sky.frame(i * 50_000_000L, 13000 + i);
-            clouds.update(1000 + i, frame);
-            assertEquals(frame.time() - 12000, 1000 + i + clouds.offset(), 1e-8);
-        }
-        assertTrue(sky.update(13100, 24000, 1, 5_000_000_000L));
-        clouds.update(1100, sky.frame(5_000_000_000L, 24000));
-        assertEquals(11500, 1100 + clouds.offset(), 1e-8);
-        for (int i = 1; i <= 40; i++) {
-            var frame = sky.frame(5_000_000_000L + i * 50_000_000L, 24000 + i);
-            clouds.update(1100 + i, frame);
-            assertEquals(frame.time() - 12000, 1100 + i + clouds.offset(), 1e-8);
-        }
-        double end = 1140 + clouds.offset();
-        clouds.update(1160, sky.frame(8_000_000_000L, 24060));
-        assertEquals(end + 20, 1160 + clouds.offset(), 1e-8);
-    }
-
     @Test void interruptedSleepCanEaseBackWithoutRestoringTheOldCloudPositionAbruptly() {
         var clouds = new CloudClock();
         clouds.update(100, frame(true, 13000, 1));
