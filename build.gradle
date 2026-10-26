@@ -20,7 +20,10 @@ def referencePack = file(localSetting('referencePack', 'local-dependencies/Compl
 def referenceDefinitions = new groovy.json.JsonSlurper().parse(file('gradle/reference-dependencies.json'))
 // Compile-only dependencies are supplied locally and verified before use.
 def references = referenceDefinitions.collectEntries { reference ->
-    [(reference.id): [jar: new File(referenceDirectory, reference.file), sha256: reference.sha256]]
+    def referenceJar = reference.property
+        ? file(localSetting(reference.property, "local-dependencies/${reference.file}"))
+        : new File(referenceDirectory, reference.file)
+    [(reference.id): [jar: referenceJar, sha256: reference.sha256]]
 }
 def referenceJars = references.keySet().collect { layout.buildDirectory.file("reference/${it}.jar") }
 def prepareReferences = tasks.register('prepareReferences') {

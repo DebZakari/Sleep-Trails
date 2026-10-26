@@ -9,6 +9,7 @@ Supply these compile dependencies in a local directory:
 | Dependency | File name |
 |---|---|
 | Vitrail | `vitrail-0.13.0-beta.vultrum.4+mc26.3.jar` |
+| Iris | `iris-fabric-1.11.7+mc26.3.jar` |
 | Sodium | `sodium-fabric-0.9.3-beta.1+mc26.3.jar` |
 | Mod Menu | `modmenu-21.0.0.jar` |
 
@@ -16,14 +17,17 @@ The build checks their SHA-256 hashes against [reference-dependencies.json](../g
 
 The shader adapter test also requires an unmodified `ComplementaryUnbound_r5.9.3.zip`. Supply the pack separately under its own license. The build reads it for the test and leaves it unchanged.
 
-Place the three JARs and the shader ZIP in `local-dependencies/`, or create `gradle-local.properties` in the project root:
+Place the four JARs and the shader ZIP in `local-dependencies/`, or create `gradle-local.properties` in the project root:
 
 ```properties
 referenceDirectory=/path/to/mod-jars
 referencePack=/path/to/ComplementaryUnbound_r5.9.3.zip
+irisReference=/path/to/iris-fabric-1.11.7+mc26.3.jar
 ```
 
 Use forward slashes for Windows paths, such as `D:/Minecraft/mods`. Both the local properties file and `local-dependencies/` are excluded from Git.
+
+The Iris clock adapter targets Iris `1.11.7+mc26.3` with Sodium `0.9.2+mc26.3` on OpenGL. The Sodium JAR above remains the compile reference for the existing settings integration. Renderer JARs are supplied separately; do not install Iris and Vitrail together.
 
 ## Commands
 
@@ -47,7 +51,7 @@ You can override the local dependency paths on the command line:
 
 Gradle downloads Minecraft, Fabric Loader, JUnit and the build tooling on the first build. Add `--offline` when those dependencies are already cached.
 
-`build` compiles the mod and runs 59 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
+`build` compiles the mod and runs 68 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
 
 The output is `build/libs/sleep-trails-<mod_version>+mc26.3.jar`, using the version in `gradle.properties`. The adjacent `-sources.jar` contains source code and is not an installable mod.
 

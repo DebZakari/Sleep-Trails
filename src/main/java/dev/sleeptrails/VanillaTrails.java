@@ -65,7 +65,7 @@ public final class VanillaTrails {
     private VanillaTrails() {}
 
     /** Under an unsupported renderer the whole feature is off, and the trails add nothing, not even a pipeline. */
-    public static boolean wanted() { return VitrailCompatibility.supportedRenderer(); }
+    public static boolean wanted() { return RendererCompatibility.supportedRenderer() && !RendererCompatibility.irisPresent(); }
 
     /** Keeps a copy of vanilla's star corners as its buffer is built. Another layout than vanilla's is left alone. */
     public static void capture(ByteBuffer data) {
@@ -167,7 +167,7 @@ public final class VanillaTrails {
 
     /** With the exact Vitrail, whether a pack is loaded and drawing, in which case the pack draws the sky and its stars. */
     public static boolean packDrawing() {
-        return VitrailCompatibility.vitrailPresent() && dev.sleeptrails.vitrail.PackState.drawing();
+        return RendererCompatibility.vitrailPresent() && dev.sleeptrails.vitrail.PackState.drawing();
     }
 
     /** Trail draws so far, for the fixture trace. */

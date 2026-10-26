@@ -27,7 +27,9 @@ public final class Presentation {
     private Presentation() {}
 
     private static boolean supported(ClientLevel level) {
-        return level != null && level.dimension().equals(Level.OVERWORLD)
+        return level != null && (!RendererCompatibility.irisPresent()
+            || com.mojang.blaze3d.systems.RenderSystem.getDevice().getDeviceInfo().backendName().equals("OpenGL"))
+            && level.dimension().equals(Level.OVERWORLD)
             && !level.dimensionType().hasFixedTime()
             && level.dimensionType().defaultClock().filter(clock -> clock.is(WorldClocks.OVERWORLD)
                 && level.clockManager().getInstance(clock).rate() == 1).isPresent();
@@ -43,7 +45,7 @@ public final class Presentation {
         }
         long now = System.nanoTime();
         double time = world == null ? 0 : world.getDefaultClockTime();
-        var started = TRANSITION.observe(world, supported(world) && VitrailCompatibility.supportedRenderer(),
+        var started = TRANSITION.observe(world, supported(world) && RendererCompatibility.supportedRenderer(),
             mc.player != null && mc.player.isSleeping(), time, now,
             new SkyTransition.Options(Settings.effect(), Settings.timeJumps(), Settings.trails()));
         if (started != null) {
@@ -82,7 +84,7 @@ public final class Presentation {
             if (environment == null) buildEnvironments();
             environment.invalidateTickCache();
             exposure.invalidateTickCache();
-            if (snapshot.exposure().ticks() > 0) VanillaTrails.prepare();
+            if (snapshot.exposure().ticks() > 0 && VanillaTrails.wanted()) VanillaTrails.prepare();
         }
         if (Observation.enabled() && ++frameIndex % 6 == 0 && mc.player != null && world != null) {
             var camera = mc.gameRenderer.mainCamera();

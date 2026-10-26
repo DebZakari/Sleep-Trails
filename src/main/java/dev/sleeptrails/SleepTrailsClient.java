@@ -13,6 +13,6 @@ public final class SleepTrailsClient implements ClientModInitializer {
     public void onInitializeClient() {
         Settings.load(FabricLoader.getInstance().getConfigDir().resolve("sleep_trails.json"));
         LOGGER.info("Sleep Trails in-bed transition and exact-pack star-exposure prototype loaded; renderer supported: {}; settings: {}",
-            VitrailCompatibility.supportedRenderer(), Settings.get());
+            RendererCompatibility.supportedRenderer(), Settings.get());
     }
 }

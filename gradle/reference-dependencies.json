@@ -1,5 +1,12 @@
 [
   {
+    "id": "iris",
+    "version": "1.11.7+mc26.3",
+    "file": "iris-fabric-1.11.7+mc26.3.jar",
+    "property": "irisReference",
+    "sha256": "83ab4d3013dd56ac05ae503a2f596968911001c4ef3d82c59c5c79e64c34dd98"
+  },
+  {
     "id": "vitrail",
     "version": "0.13.0-beta.vultrum.4",
     "file": "vitrail-0.13.0-beta.vultrum.4+mc26.3.jar",

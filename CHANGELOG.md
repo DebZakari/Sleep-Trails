@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add sky-transition support for the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` setup on OpenGL. Iris stars remain instantaneous, including with shaders off. Other Iris/Sodium builds remain unsupported.
+
 ## 0.1.0-alpha.3 (2026-10-25)
 
 - Smooth server time jumps between day and night over five seconds while awake, including another player skipping the night. Smooth Time Jumps is enabled by default and can be disabled separately from in-bed transitions.
