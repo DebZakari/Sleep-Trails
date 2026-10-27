@@ -68,4 +68,16 @@ class SettingsTest {
         assertEquals(Settings.Values.DEFAULTS, Settings.get());
         assertEquals("{ not json", Files.readString(file));
     }
+    @Test void deferredStarSettingsDoNotAlterExistingPreferencesOrSurviveSaving() {
+        var saved="""
+            {"effect":true,"trails":true,"camera":"cinematic","tilt":35,"eyePosition":"raised","timeJumps":false,
+             "variedStarSpeeds":true,"parallax":true,"trailLength":4,"parallaxStrengthPercent":400,"starSpeedCeilingPercent":100}
+            """;
+        var values=Settings.parse(saved);
+        assertEquals(new Settings.Values(true,true,Settings.Camera.CINEMATIC,35,Settings.Eye.RAISED,false),values);
+        var written=Settings.write(values);
+        assertEquals(values,Settings.parse(written));
+        for(var key:new String[]{"variedStarSpeeds","parallax","trailLength","parallaxStrengthPercent","starSpeedCeilingPercent"})
+            assertFalse(written.contains(key),key);
+    }
 }
