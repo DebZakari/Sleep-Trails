@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Add sky-transition support for the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` setup on OpenGL. Iris stars remain instantaneous, including with shaders off. Other Iris/Sodium builds remain unsupported.
+- Add sky-transition support for the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` setup on OpenGL. Other Iris/Sodium builds remain unsupported.
+- Add the original long-exposure star trails for that Iris setup with the exact Complementary Unbound r5.9.3 pack. Other packs and Iris with shaders off keep sky transitions without added trails.
 
 ## 0.1.0-alpha.3 (2026-10-25)
 

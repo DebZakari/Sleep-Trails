@@ -77,6 +77,8 @@ Sleep Trails currently supports **Fabric on Minecraft 26.3**. Install it on the 
 
 The Vitrail adapter checks the renderer JAR and shader pack against the supported file hashes. A matching version label alone is insufficient.
 
+**Development builds:** the next alpha is being tested with the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` files on OpenGL. This setup adds sky transitions and the original star trails with the exact Complementary Unbound r5.9.3 pack. Other packs and shaders-off Iris keep sky transitions without added trails. Renderer and pack file hashes are checked. This support is unreleased; the Alpha 3 compatibility table above still applies to the current download.
+
 ## Settings
 
 Open Sleep Trails from Mod Menu or Sodium's Video Settings. Changes made during a transition apply from the next transition.
