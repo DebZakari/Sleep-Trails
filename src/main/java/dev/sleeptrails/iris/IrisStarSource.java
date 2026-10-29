@@ -40,11 +40,34 @@ public final class IrisStarSource {
         Scope scope = CURRENT.get();
         if (scope == null || scope.root == null || !scope.root.resolve(StarSource.MEMBER).equals(file.toAbsolutePath().normalize())) return original;
         if (!StarSource.sha(original.getBytes(StandardCharsets.UTF_8)).equals(StarSource.STARS_SHA)) return original;
-        String patched = StarSource.transform(original);
+        String patched = transform(original);
         Observation.event("star_adapter", Map.of("renderer", "iris", "member", StarSource.MEMBER,
             "originalSha256", StarSource.STARS_SHA, "patchedSha256", StarSource.sha(patched.getBytes(StandardCharsets.UTF_8)),
             "reference", Boolean.getBoolean("sleeptrails.reference")));
         return patched;
+    }
+
+    private static String transform(String original) {
+        String text = StarSource.transform(original);
+        if (Boolean.getBoolean("sleeptrails.reference")) return text;
+        // Each remaining noise factor is at most one. Once below the final threshold, this star stays zero.
+        String guard = """
+            #if NIGHT_STAR_AMOUNT == 1
+                if (star <= 0.82) return vec3(0.0);
+            #elif NIGHT_STAR_AMOUNT == 2
+                if (star <= 0.7) return vec3(0.0);
+            #elif NIGHT_STAR_AMOUNT == 3
+                if (star <= 0.62) return vec3(0.0);
+            #elif NIGHT_STAR_AMOUNT == 4
+                if (star <= 0.52) return vec3(0.0);
+            #endif
+            """;
+        for (String needle : new String[]{"star *= GetStarNoise(starCoord.xy);", "star *= GetStarNoise(starCoord.xy+0.1);"}) {
+            if (text.indexOf(needle) < 0 || text.indexOf(needle) != text.lastIndexOf(needle))
+                throw new IllegalArgumentException("Unexpected Iris star noise function");
+            text = text.replace(needle, needle + "\n" + guard);
+        }
+        return text;
     }
 
     public static final class Scope implements AutoCloseable {

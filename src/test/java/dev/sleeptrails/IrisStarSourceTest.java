@@ -13,7 +13,36 @@ import java.util.zip.ZipEntry;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IrisStarSourceTest {
+    // Exact shader output from the image-validated and measured early-exit candidate.
+    private static final String OPTIMIZED_SHA = "03d5ceedf6053ebdc5fa3b22f35c35ed89e8f313aeb055d80b3db5865baebdba";
     private static Path pack() { return Path.of(System.getProperty("sleeptrails.referencePack")); }
+
+    private static void assertOptimized(String patched) {
+        assertEquals(OPTIMIZED_SHA, StarSource.sha(patched.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+    }
+
+    @Test void admittedIrisShaderMatchesTheValidatedOptimizationCandidate() throws Exception {
+        try (var fs = FileSystems.newFileSystem(pack()); var scope = IrisStarSource.open(fs.getPath("/shaders"))) {
+            var member = fs.getPath("/shaders").resolve(StarSource.MEMBER);
+            String patched = IrisStarSource.read(member, Files.readString(member));
+            assertOptimized(patched);
+        }
+    }
+
+    @Test void referenceRetainsTheUnoptimizedOriginalStarFunction() throws Exception {
+        String previous = System.getProperty("sleeptrails.reference");
+        try {
+            System.setProperty("sleeptrails.reference", "true");
+            try (var fs = FileSystems.newFileSystem(pack()); var scope = IrisStarSource.open(fs.getPath("/shaders"))) {
+                var member = fs.getPath("/shaders").resolve(StarSource.MEMBER);
+                String original = Files.readString(member);
+                assertEquals(StarSource.transform(original), IrisStarSource.read(member, original));
+            }
+        } finally {
+            if (previous == null) System.clearProperty("sleeptrails.reference");
+            else System.setProperty("sleeptrails.reference", previous);
+        }
+    }
 
     @Test void exactArchiveAndMemberArePatchedOnlyInsideTheirConstructionScope() throws Exception {
         try (var fs = FileSystems.newFileSystem(pack())) {
@@ -22,7 +51,7 @@ class IrisStarSourceTest {
             var original = Files.readString(member);
             assertEquals(original, IrisStarSource.read(member, original));
             try (var scope = IrisStarSource.open(root)) {
-                assertEquals(StarSource.transform(original), IrisStarSource.read(member, original));
+                assertOptimized(IrisStarSource.read(member, original));
                 assertEquals(original, IrisStarSource.read(root.resolve("other/stars.glsl"), original));
                 assertEquals(original + "\n", IrisStarSource.read(member, original + "\n"));
                 assertEquals(original, CompletableFuture.supplyAsync(() -> IrisStarSource.read(member, original)).join());
@@ -43,7 +72,7 @@ class IrisStarSourceTest {
                         throw new IllegalStateException("failed pack load");
                     }
                 });
-                assertEquals(StarSource.transform(original), IrisStarSource.read(member, original));
+                assertOptimized(IrisStarSource.read(member, original));
             }
             assertEquals(original, IrisStarSource.read(member, original));
         }
@@ -76,7 +105,7 @@ class IrisStarSourceTest {
             var member = root.resolve(StarSource.MEMBER);
             var original = Files.readString(member);
             try (var scope = IrisStarSource.open(root)) {
-                assertEquals(StarSource.transform(original), IrisStarSource.read(member, original));
+                assertOptimized(IrisStarSource.read(member, original));
             }
         }
     }
