@@ -3,7 +3,7 @@
   "id": "sleep_trails",
   "version": "${version}",
   "name": "Sleep Trails",
-  "description": "Smooths the night-to-morning sky transition during sleep, with star trails for vanilla rendering and the supported Vitrail shader setup. Client-side only.",
+  "description": "Smooths sky transitions during sleep and server time jumps, with star trails for vanilla rendering and supported Vitrail or Iris setups. Client-side only.",
   "authors": ["EngrLightning"],
   "contact": {
     "homepage": "https://github.com/DebZakari/Sleep-Trails",

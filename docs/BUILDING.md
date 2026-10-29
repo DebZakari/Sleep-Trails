@@ -27,7 +27,7 @@ irisReference=/path/to/iris-fabric-1.11.7+mc26.3.jar
 
 Use forward slashes for Windows paths, such as `D:/Minecraft/mods`. Both the local properties file and `local-dependencies/` are excluded from Git.
 
-The Iris clock adapter targets Iris `1.11.7+mc26.3` with Sodium `0.9.2+mc26.3` on OpenGL. The Sodium JAR above remains the compile reference for the existing settings integration. Renderer JARs are supplied separately; do not install Iris and Vitrail together.
+The Iris adapter targets Iris `1.11.7+mc26.3` with Sodium `0.9.2+mc26.3` on OpenGL. Star trails require the exact Complementary Unbound r5.9.3 pack; other packs and shaders-off Iris keep sky transitions without added trails. The Sodium JAR above remains the compile reference for the existing settings integration. Renderer JARs are supplied separately; do not install Iris and Vitrail together.
 
 ## Commands
 
@@ -51,7 +51,7 @@ You can override the local dependency paths on the command line:
 
 Gradle downloads Minecraft, Fabric Loader, JUnit and the build tooling on the first build. Add `--offline` when those dependencies are already cached.
 
-`build` compiles the mod and runs 68 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter test checks the supplied pack's star source hash as well as the patch behavior.
+`build` compiles the mod and runs 76 unit tests. Results are written to `build/reports/tests/test/`. The shader adapter tests check the supplied pack's identity, scoped admission, optimized Iris source and unoptimized reference behavior.
 
 The output is `build/libs/sleep-trails-<mod_version>+mc26.3.jar`, using the version in `gradle.properties`. The adjacent `-sources.jar` contains source code and is not an installable mod.
 

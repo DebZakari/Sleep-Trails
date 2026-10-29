@@ -11,12 +11,12 @@
 
 <p align="center">
   <a href="https://fabricmc.net/use/installer/"><img src="docs/media/badges/fabric.svg" height="48" alt="Supports Fabric"></a>
-  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 3 on GitHub"></a>
+  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.4"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 4 on GitHub"></a>
   <img src="docs/media/badges/modrinth-coming-soon.svg" height="48" alt="Modrinth: coming soon">
 </p>
 
 <p align="center">
-  Minecraft 26.3 · Client-side · Alpha 3
+  Minecraft 26.3 · Client-side · Alpha 4
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 **Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
 
 > [!NOTE]
-> **[0.1.0 Alpha 3](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3)** is an early test release for Minecraft 26.3. Shader support is limited to the [setup listed below](#compatibility); Iris currently disables the effect. If something breaks or looks wrong, please [report it](#reporting-bugs).
+> **[0.1.0 Alpha 4](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.4)** is an early test release for Minecraft 26.3. Shader support is limited to the [setups listed below](#compatibility). If something breaks or looks wrong, please [report it](#reporting-bugs).
 
 ## Features
 
@@ -53,15 +53,15 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 
 ## Install
 
-**Download:** [0.1.0 Alpha 3 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.3). Modrinth is coming soon.
+**Download:** [0.1.0 Alpha 4 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.4). Modrinth is coming soon.
 
 You need **Minecraft 26.3**, **Fabric Loader 0.19.5 or newer**, and **Java 25 or newer**.
 
-1. Download `sleep-trails-0.1.0-alpha.3+mc26.3.jar` from the release above.
+1. Download `sleep-trails-0.1.0-alpha.4+mc26.3.jar` from the release above.
 2. Copy it into your Fabric client's `mods` folder.
 3. Launch Minecraft and sleep in an Overworld bed from sunset onward.
 
-**Fabric API is not required.** Sodium and Mod Menu are optional. Shader packs are optional; for shader trails, install [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.4) and Complementary Unbound separately.
+**Fabric API is not required.** Sodium and Mod Menu are optional. Shader packs are optional; for shader trails, install one of the supported renderer setups below and Complementary Unbound separately. Use Iris or [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.4) with its matching Sodium version; install only one shader renderer.
 
 ## Compatibility
 
@@ -73,11 +73,11 @@ Sleep Trails currently supports **Fabric on Minecraft 26.3**. Install it on the 
 | Vitrail `0.13.0-beta.vultrum.4` with Complementary Unbound r5.9.3 | Yes | Shader pack's stars |
 | That Vitrail build with shaders off or no pack loaded | Yes | Vanilla stars |
 | That Vitrail build with another pack | Yes | Unavailable |
-| Other Vitrail builds, or Iris | Effect disabled | Effect disabled |
+| Iris `1.11.7+mc26.3` with Sodium `0.9.2+mc26.3` on OpenGL and Complementary Unbound r5.9.3 | Yes | Shader pack's stars |
+| That Iris/Sodium setup with shaders off or another pack | Yes | Unavailable |
+| Other Vitrail builds or Iris/Sodium combinations | Effect disabled | Effect disabled |
 
-The Vitrail adapter checks the renderer JAR and shader pack against the supported file hashes. A matching version label alone is insufficient.
-
-**Development builds:** the next alpha is being tested with the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` files on OpenGL. This setup adds sky transitions and the original star trails with the exact Complementary Unbound r5.9.3 pack. Other packs and shaders-off Iris keep sky transitions without added trails. Renderer and pack file hashes are checked. This support is unreleased; the Alpha 3 compatibility table above still applies to the current download.
+The adapters check renderer and shader pack file hashes. Iris admission also requires the exact Sodium file. A matching version label alone is insufficient.
 
 ## Settings
 
@@ -123,7 +123,7 @@ Settings are saved in `config/sleep_trails.json`. You can also use these JVM arg
 
 ## Build
 
-Use JDK 25 and the included Gradle wrapper. The build requires three local compile dependencies and the shader pack for one test. See [Building from source](docs/BUILDING.md) for file names, configuration and commands.
+Use JDK 25 and the included Gradle wrapper. The build requires four local compile dependencies and the shader pack for its adapter tests. See [Building from source](docs/BUILDING.md) for file names, configuration and commands.
 
 The mod JAR is written to `build/libs/`. Copy the JAR without the `-sources` suffix into your client's `mods` folder.
 
