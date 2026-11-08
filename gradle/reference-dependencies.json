@@ -8,15 +8,15 @@
   },
   {
     "id": "vitrail",
-    "version": "0.13.0-beta.vultrum.4",
-    "file": "vitrail-0.13.0-beta.vultrum.4+mc26.3.jar",
-    "sha256": "ebabdea37f4a520de8436901d28cfd72d58fed02cce0ba1770fe34bff0a71e8f"
+    "version": "0.13.0-beta.vultrum.5",
+    "file": "vitrail-0.13.0-beta.vultrum.5+mc26.3.jar",
+    "sha256": "8c6afa1d777a9faadc19687475f897466db6a361af9fc96bc71bd42fff66353e"
   },
   {
     "id": "sodium",
-    "version": "0.9.3-beta.1+mc26.3",
-    "file": "sodium-fabric-0.9.3-beta.1+mc26.3.jar",
-    "sha256": "84cdb90d273aadbc00cddbcc82ede6e44fd33ac635f23c1d43fec28cc43b9bd6"
+    "version": "0.9.3-beta.3+mc26.3",
+    "file": "sodium-fabric-0.9.3-beta.3+mc26.3.jar",
+    "sha256": "e45b03d3b47fd6be9e69ed0d7d76fde61f306a104f0a64c74b6e7577e04c63b7"
   },
   {
     "id": "modmenu",

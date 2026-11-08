@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2026-11-08)
+
+- Support the Vitrail `0.13.0-beta.vultrum.5` build, which places terrain correctly with Sodium `0.9.3-beta.2` and newer. Shader star trails now work with Vitrail `.5` and Complementary Unbound r5.9.3. Vitrail `0.13.0-beta.vultrum.4` remains supported.
+
 ## 0.1.0-alpha.4 (2026-10-29)
 
 - Add sky-transition support for the exact Iris `1.11.7+mc26.3` and Sodium `0.9.2+mc26.3` setup on OpenGL. Other Iris/Sodium builds remain unsupported.
