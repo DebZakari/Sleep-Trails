@@ -8,7 +8,7 @@ Supply these compile dependencies in a local directory:
 
 | Dependency | File name |
 |---|---|
-| Vitrail | `vitrail-0.13.0-beta.vultrum.5+mc26.3.jar` |
+| Vitrail | `vitrail-0.13.0-beta.vultrum.6+mc26.3.jar` |
 | Iris | `iris-fabric-1.11.7+mc26.3.jar` |
 | Sodium | `sodium-fabric-0.9.3-beta.3+mc26.3.jar` |
 | Mod Menu | `modmenu-21.0.0.jar` |
