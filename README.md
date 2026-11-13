@@ -11,12 +11,12 @@
 
 <p align="center">
   <a href="https://fabricmc.net/use/installer/"><img src="docs/media/badges/fabric.svg" height="48" alt="Supports Fabric"></a>
-  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.6"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 6 on GitHub"></a>
+  <a href="https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.7"><img src="docs/media/badges/github.svg" height="48" alt="Download Alpha 7 on GitHub"></a>
   <img src="docs/media/badges/modrinth-coming-soon.svg" height="48" alt="Modrinth: coming soon">
 </p>
 
 <p align="center">
-  Minecraft 26.3 · Client-side · Alpha 6
+  Minecraft 26.3 · Client-side · Alpha 7
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 **Works with vanilla rendering, without a shader pack.** Install it on your Fabric client; other players and the server do not need the mod. Server time and gameplay stay unchanged.
 
 > [!NOTE]
-> **[0.1.0 Alpha 6](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.6)** is an early test release for Minecraft 26.3. Shader support is limited to the [setups listed below](#compatibility). If something breaks or looks wrong, please [report it](#reporting-bugs).
+> **[0.1.0 Alpha 7](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.7)** is an early test release for Minecraft 26.3. Shader support is limited to the [setups listed below](#compatibility). If something breaks or looks wrong, please [report it](#reporting-bugs).
 
 ## Features
 
@@ -53,15 +53,15 @@ Sleep Trails smooths the sky from night to morning while you sleep, with stars t
 
 ## Install
 
-**Download:** [0.1.0 Alpha 6 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.6). Modrinth is coming soon.
+**Download:** [0.1.0 Alpha 7 on GitHub](https://github.com/DebZakari/Sleep-Trails/releases/tag/v0.1.0-alpha.7). Modrinth is coming soon.
 
 You need **Minecraft 26.3**, **Fabric Loader 0.19.5 or newer**, and **Java 25 or newer**.
 
-1. Download `sleep-trails-0.1.0-alpha.6+mc26.3.jar` from the release above.
+1. Download `sleep-trails-0.1.0-alpha.7+mc26.3.jar` from the release above.
 2. Copy it into your Fabric client's `mods` folder.
 3. Launch Minecraft and sleep in an Overworld bed from sunset onward.
 
-**Fabric API is not required.** Sodium and Mod Menu are optional. Shader packs are optional; for shader trails, install one of the supported renderer setups below and Complementary Unbound separately. Use Iris or [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.6) with its matching Sodium version; install only one shader renderer.
+**Fabric API is not required.** Sodium and Mod Menu are optional. Shader packs are optional; for shader trails, install one of the supported renderer setups below and Complementary Unbound separately. Use Iris or [the supported Vitrail build](https://github.com/DebZakari/vitrail-shaders/releases/tag/0.13.0-beta.vultrum.7) with its matching Sodium version; install only one shader renderer.
 
 ## Compatibility
 
@@ -70,7 +70,7 @@ Sleep Trails currently supports **Fabric on Minecraft 26.3**. Install it on the 
 | Renderer | Sky transition | Star trails |
 |---|---|---|
 | Vanilla, without Iris or Vitrail | Yes | Vanilla stars |
-| Vitrail `0.13.0-beta.vultrum.6`, `.5` or `.4` with Complementary Unbound r5.9.3 | Yes | Shader pack's stars |
+| Vitrail `0.13.0-beta.vultrum.7`, `.6`, `.5` or `.4` with Complementary Unbound r5.9.3 | Yes | Shader pack's stars |
 | Those Vitrail builds with shaders off or no pack loaded | Yes | Vanilla stars |
 | Those Vitrail builds with another pack | Yes | Unavailable |
 | Iris `1.11.7+mc26.3` with Sodium `0.9.2+mc26.3` on OpenGL and Complementary Unbound r5.9.3 | Yes | Shader pack's stars |

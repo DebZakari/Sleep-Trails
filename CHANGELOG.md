@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2026-11-13)
+
+- Support the Vitrail `0.13.0-beta.vultrum.7` build, which works with Sodium `0.9.3-beta.5`. Shader star trails work with Vitrail `.7` and Complementary Unbound r5.9.3. Vitrail `0.13.0-beta.vultrum.6`, `.5` and `.4` remain supported.
+
 ## 0.1.0-alpha.6 (2026-11-13)
 
 - Support the Vitrail `0.13.0-beta.vultrum.6` build, which draws the shadows of mobs and displays in view at lower cost. Shader star trails work with Vitrail `.6` and Complementary Unbound r5.9.3. Vitrail `0.13.0-beta.vultrum.5` and `0.13.0-beta.vultrum.4` remain supported.

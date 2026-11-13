@@ -8,9 +8,9 @@
   },
   {
     "id": "vitrail",
-    "version": "0.13.0-beta.vultrum.6",
-    "file": "vitrail-0.13.0-beta.vultrum.6+mc26.3.jar",
-    "sha256": "520c17b2d81384e91d4765ab6cc446cfa0785e21d5ff0566cc103f91dc957587"
+    "version": "0.13.0-beta.vultrum.7",
+    "file": "vitrail-0.13.0-beta.vultrum.7+mc26.3.jar",
+    "sha256": "9077a7620f34a7244ca806c2252ecbc1b0598a6084b0735bafe884ade18ac2e7"
   },
   {
     "id": "sodium",
