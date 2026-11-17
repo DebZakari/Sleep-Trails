@@ -24,10 +24,11 @@ public final class RendererCompatibility implements IMixinConfigPlugin {
         iris = loader.isModLoaded("iris");
         if (vitrail && iris) return;
         try {
-            // .5 changes only Vitrail's terrain offset for newer Sodium builds, .6 only its entity shadows and .7
-            // only its Sodium chunk shader hooks; the classes mixed into here are byte-identical to .4's in all three.
+            // These builds keep the renderer classes used here byte-identical to .4.
+            // .8 changes the translucent terrain shadow alpha cutoff only.
             supported = vitrail
-                ? matches("vitrail", "0.13.0-beta.vultrum.7", "9077a7620f34a7244ca806c2252ecbc1b0598a6084b0735bafe884ade18ac2e7")
+                ? matches("vitrail", "0.13.0-beta.vultrum.8", "5690d26c30035de369a71cba2f4b161867de82db74cd1d3a24caa1bba819f9e4")
+                    || matches("vitrail", "0.13.0-beta.vultrum.7", "9077a7620f34a7244ca806c2252ecbc1b0598a6084b0735bafe884ade18ac2e7")
                     || matches("vitrail", "0.13.0-beta.vultrum.6", "520c17b2d81384e91d4765ab6cc446cfa0785e21d5ff0566cc103f91dc957587")
                     || matches("vitrail", "0.13.0-beta.vultrum.5", "8c6afa1d777a9faadc19687475f897466db6a361af9fc96bc71bd42fff66353e")
                     || matches("vitrail", "0.13.0-beta.vultrum.4", "ebabdea37f4a520de8436901d28cfd72d58fed02cce0ba1770fe34bff0a71e8f")
